@@ -4,6 +4,9 @@ from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 import math
 import numpy as np
 
+from geometry_msgs.msg import Pose, Twist, Point, Quaternion
+from std_msgs.msg import String
+
 class Bug2State:
     GO_TO_GOAL = 0
     WALL_FOLLOW = 1
@@ -26,8 +29,11 @@ class Bug2Controller(Node):
             self.right_sensor_handle = self.sim.getObject('/scan_right')
         except Exception as e:
             self.get_logger().error(f'Erro ao obter handles dos objetos: {e}')
-            rclpy.shutdown()
-            return
+            rclpy.shutdown(); return
+
+        self.pose_publisher = self.create_publisher(Pose, '/robot_pose', 10)
+        self.twist_publisher = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.state_publisher = self.create_publisher(String, '/robot_state', 10)
 
         self.current_state = Bug2State.GO_TO_GOAL
         self.goal_position = np.array([0.925, -1.450])
@@ -46,6 +52,7 @@ class Bug2Controller(Node):
             return
 
         robot_pos_xyz = self.sim.getObjectPosition(self.robot_handle, -1)
+        robot_quat_xyzw = self.sim.getObjectQuaternion(self.robot_handle, -1)
         current_pos = np.array([robot_pos_xyz[0], robot_pos_xyz[1]])
 
         dist_to_goal = np.linalg.norm(self.goal_position - current_pos)
@@ -54,9 +61,17 @@ class Bug2Controller(Node):
         if dist_to_goal < goal_threshold:
             self.get_logger().info(f'Objetivo alcançado! Distância: {dist_to_goal:.2f}m. Parando o robô.')
             self.current_state = Bug2State.GOAL_REACHED
+            
+            state_msg = String(data="GOAL_REACHED")
+            self.state_publisher.publish(state_msg)
+
             self.set_robot_velocity(0.0, 0.0)
-            self.timer.cancel()
-            return
+            self.timer.cancel(); return
+
+        pose_msg = Pose()
+        pose_msg.position = Point(x=robot_pos_xyz[0], y=robot_pos_xyz[1], z=robot_pos_xyz[2])
+        pose_msg.orientation = Quaternion(x=robot_quat_xyzw[0], y=robot_quat_xyzw[1], z=robot_quat_xyzw[2], w=robot_quat_xyzw[3])
+        self.pose_publisher.publish(pose_msg)
 
         matrix = self.sim.getObjectMatrix(self.robot_handle, -1)
         forward_vector = np.array([matrix[0], matrix[4]])
@@ -72,6 +87,9 @@ class Bug2Controller(Node):
             self.wall_follow_logic(current_pos, is_obstacle_ahead, res_right, dist_right)
 
     def go_to_goal_logic(self, current_pos, current_yaw, is_obstacle_ahead):
+        state_msg = String(data="GO_TO_GOAL")
+        self.state_publisher.publish(state_msg)
+
         if is_obstacle_ahead:
             self.get_logger().info('Obstáculo detectado! Mudando para WALL_FOLLOW.')
             self.current_state = Bug2State.WALL_FOLLOW
@@ -90,17 +108,18 @@ class Bug2Controller(Node):
         self.set_robot_velocity(linear_vel, angular_vel)
 
     def wall_follow_logic(self, current_pos, is_obstacle_ahead, res_right, dist_right):
+        state_msg = String(data="WALL_FOLLOW")
+        self.state_publisher.publish(state_msg)
+
         dist_from_m_line = self.distance_point_to_line(current_pos, self.m_line_start, self.m_line_end)
         on_m_line = dist_from_m_line < 0.1
-        
         current_dist_to_goal = np.linalg.norm(self.goal_position - current_pos)
         is_closer_than_hit = current_dist_to_goal < self.dist_at_hit_point
 
         if on_m_line and is_closer_than_hit and self.hit_point is not None:
             self.get_logger().info('De volta à linha M e mais perto do objetivo! Mudando para GO_TO_GOAL.')
             self.current_state = Bug2State.GO_TO_GOAL
-            self.hit_point = None
-            return
+            self.hit_point = None; return
 
         desired_dist = 0.35
         if is_obstacle_ahead:
@@ -117,6 +136,11 @@ class Bug2Controller(Node):
         self.set_robot_velocity(linear_vel, angular_vel)
 
     def set_robot_velocity(self, linear_vel, angular_vel):
+        twist_msg = Twist()
+        twist_msg.linear.x = float(linear_vel)
+        twist_msg.angular.z = float(angular_vel)
+        self.twist_publisher.publish(twist_msg)
+
         wheel_radius = 0.033
         wheel_base = 0.287
         v_left = (linear_vel - angular_vel * wheel_base / 2.0) / wheel_radius
@@ -144,7 +168,7 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        if rclpy.ok() and hasattr(bug2_controller, 'client') and bug2_controller.client.is_connected():
+        if rclpy.ok() and hasattr(bug2_controller, 'client'):
             bug2_controller.set_robot_velocity(0.0, 0.0)
             bug2_controller.destroy_node()
         rclpy.shutdown()
