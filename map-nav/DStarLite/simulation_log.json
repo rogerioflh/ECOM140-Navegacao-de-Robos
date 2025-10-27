@@ -1,0 +1,1289 @@
+[
+    {
+        "timestamp": 1761599301.693831,
+        "state": "INITIALIZING",
+        "pose": {
+            "x": 5,
+            "y": 5
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.0887208,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 6
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.1824522,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 7
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.2758095,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 8
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.369858,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 9
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.4622092,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 10
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.5566535,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 11
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.6497765,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 12
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.744086,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 13
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.837021,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 14
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599302.9314377,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 15
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599303.0261407,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 16
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599303.1215878,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 17
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599303.2150276,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 18
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599303.3086274,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 19
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599303.4027412,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 20
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599303.4967837,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 21
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599304.58793,
+        "state": "REPLANNING_DETECTED",
+        "pose": {
+            "x": 5,
+            "y": 21
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.221992,
+        "state": "REPLANNING_COMPLETE",
+        "pose": {
+            "x": 5,
+            "y": 21
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.4115484,
+        "state": "MOVING",
+        "pose": {
+            "x": 5,
+            "y": 22
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.5064592,
+        "state": "MOVING",
+        "pose": {
+            "x": 6,
+            "y": 23
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.5991511,
+        "state": "MOVING",
+        "pose": {
+            "x": 7,
+            "y": 24
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.692197,
+        "state": "MOVING",
+        "pose": {
+            "x": 8,
+            "y": 25
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.7859356,
+        "state": "MOVING",
+        "pose": {
+            "x": 9,
+            "y": 26
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.8782785,
+        "state": "MOVING",
+        "pose": {
+            "x": 10,
+            "y": 27
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599306.9733856,
+        "state": "MOVING",
+        "pose": {
+            "x": 11,
+            "y": 28
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.0688114,
+        "state": "MOVING",
+        "pose": {
+            "x": 12,
+            "y": 29
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.1623905,
+        "state": "MOVING",
+        "pose": {
+            "x": 13,
+            "y": 30
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.2556174,
+        "state": "MOVING",
+        "pose": {
+            "x": 14,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.3508897,
+        "state": "MOVING",
+        "pose": {
+            "x": 15,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.443621,
+        "state": "MOVING",
+        "pose": {
+            "x": 16,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.536137,
+        "state": "MOVING",
+        "pose": {
+            "x": 17,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.630341,
+        "state": "MOVING",
+        "pose": {
+            "x": 18,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.7249124,
+        "state": "MOVING",
+        "pose": {
+            "x": 19,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.8197074,
+        "state": "MOVING",
+        "pose": {
+            "x": 20,
+            "y": 32
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599307.912462,
+        "state": "MOVING",
+        "pose": {
+            "x": 21,
+            "y": 33
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.0047734,
+        "state": "MOVING",
+        "pose": {
+            "x": 22,
+            "y": 34
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.098539,
+        "state": "MOVING",
+        "pose": {
+            "x": 23,
+            "y": 35
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.1907563,
+        "state": "MOVING",
+        "pose": {
+            "x": 24,
+            "y": 36
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.2852826,
+        "state": "MOVING",
+        "pose": {
+            "x": 25,
+            "y": 37
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.379896,
+        "state": "MOVING",
+        "pose": {
+            "x": 26,
+            "y": 38
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.4749963,
+        "state": "MOVING",
+        "pose": {
+            "x": 27,
+            "y": 39
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.5682545,
+        "state": "MOVING",
+        "pose": {
+            "x": 28,
+            "y": 40
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.6638408,
+        "state": "MOVING",
+        "pose": {
+            "x": 29,
+            "y": 41
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.7580242,
+        "state": "MOVING",
+        "pose": {
+            "x": 30,
+            "y": 41
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.8522735,
+        "state": "MOVING",
+        "pose": {
+            "x": 31,
+            "y": 41
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599308.9469707,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 40
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.0406222,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 39
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.13508,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 38
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.229197,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 37
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.3231332,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 36
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.417587,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 35
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.5107467,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 34
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.6036413,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 33
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.69669,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 32
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.7899797,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.8830824,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 30
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599309.976719,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 29
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.0686774,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 28
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.1614463,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 27
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.2542799,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 26
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.3472633,
+        "state": "MOVING",
+        "pose": {
+            "x": 32,
+            "y": 25
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.441569,
+        "state": "MOVING",
+        "pose": {
+            "x": 33,
+            "y": 24
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.5338655,
+        "state": "MOVING",
+        "pose": {
+            "x": 34,
+            "y": 23
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.6283455,
+        "state": "MOVING",
+        "pose": {
+            "x": 35,
+            "y": 22
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.7214808,
+        "state": "MOVING",
+        "pose": {
+            "x": 36,
+            "y": 21
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.814004,
+        "state": "MOVING",
+        "pose": {
+            "x": 37,
+            "y": 20
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599310.907107,
+        "state": "MOVING",
+        "pose": {
+            "x": 38,
+            "y": 19
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.0006304,
+        "state": "MOVING",
+        "pose": {
+            "x": 39,
+            "y": 18
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": -1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.0948288,
+        "state": "MOVING",
+        "pose": {
+            "x": 40,
+            "y": 18
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.1875446,
+        "state": "MOVING",
+        "pose": {
+            "x": 41,
+            "y": 18
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.2821617,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 19
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.375924,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 20
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.4685836,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 21
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.5616634,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 22
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.6545184,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 23
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.748727,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 24
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.8420718,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 25
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599311.9364538,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 26
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.0305705,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 27
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.1221573,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 28
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.215344,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 29
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.3089252,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 30
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.4014282,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 31
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.4945993,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 32
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.5894973,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 33
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.682683,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 34
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.77753,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 35
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.870864,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 36
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599312.9650657,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 37
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.0591657,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 38
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.1538851,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 39
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.2485838,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 40
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.3419554,
+        "state": "MOVING",
+        "pose": {
+            "x": 42,
+            "y": 41
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.4364142,
+        "state": "MOVING",
+        "pose": {
+            "x": 43,
+            "y": 42
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.5308144,
+        "state": "MOVING",
+        "pose": {
+            "x": 44,
+            "y": 43
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.6227324,
+        "state": "MOVING",
+        "pose": {
+            "x": 44,
+            "y": 44
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.7152798,
+        "state": "MOVING",
+        "pose": {
+            "x": 45,
+            "y": 45
+        },
+        "twist": {
+            "linear_x": 1.0,
+            "linear_y": 1.0,
+            "angular_z": 0.0
+        }
+    },
+    {
+        "timestamp": 1761599313.8095138,
+        "state": "GOAL_REACHED",
+        "pose": {
+            "x": 45,
+            "y": 45
+        },
+        "twist": {
+            "linear_x": 0.0,
+            "linear_y": 0.0,
+            "angular_z": 0.0
+        }
+    }
+]
