@@ -1,0 +1,22 @@
+[
+    {
+        "timestamp": 0.0,
+        "pose": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "state": "REPLANNING_NO_PATH",
+        "dynamic_obstacles": [
+            {
+                "x": 12.98,
+                "y": 12.99,
+                "size": 1.0
+            },
+            {
+                "x": 7.01,
+                "y": 6.015,
+                "size": 0.8
+            }
+        ]
+    }
+]
