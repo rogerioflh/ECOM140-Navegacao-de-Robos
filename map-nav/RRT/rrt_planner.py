@@ -4,14 +4,14 @@
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches  # Importado para desenhar retângulos
+import matplotlib.patches as patches
 import random
 import math
 import numpy as np
 import json
 import time
 
-# --- Constantes para Geração de Mapa (IMPORTANTE PARA ALINHAMENTO) ---
+# --- Constantes para Geração de Mapa ---
 MAP_RESOLUTION = 0.25
 MAP_BORDER = 2
 
@@ -35,7 +35,6 @@ class RRT:
         self.path_resolution = path_resolution
         self.goal_sample_rate = goal_sample_rate
         self.max_iter = max_iter
-        # A lista de obstáculos agora pode conter diferentes tipos, mas vamos focar nos retangulares
         self.obstacle_list = obstacle_list
         self.node_list = []
 
@@ -46,7 +45,6 @@ class RRT:
             nearest_ind = self.get_nearest_node_index(self.node_list, rnd_node)
             nearest_node = self.node_list[nearest_ind]
             new_node = self.steer(nearest_node, rnd_node, self.expand_dis)
-            # A checagem de colisão foi atualizada para retângulos
             if self.check_collision(new_node, dynamic_obstacle_list):
                 self.node_list.append(new_node)
             if self.calc_dist_to_goal(self.node_list[-1].x, self.node_list[-1].y) <= self.expand_dis:
@@ -100,23 +98,18 @@ class RRT:
             rnd = self.Node(self.goal.x, self.goal.y)
         return rnd
     
-    # ### FUNÇÃO DE COLISÃO MODIFICADA ###
     def check_collision(self, node, dynamic_obstacle_list):
         if node is None:
             return False
-            
-        # Checa colisão com obstáculos retangulares estáticos
         for (ox, oy, width, height) in self.obstacle_list:
             for (ix, iy) in zip(node.path_x, node.path_y):
                 if ox <= ix <= ox + width and oy <= iy <= oy + height:
-                    return False  # Colisão
-                    
-        # Checa colisão com obstáculos dinâmicos (ainda circulares, pode ser adaptado)
+                    return False
         if dynamic_obstacle_list:
             for obs in dynamic_obstacle_list:
                 if obs.check_node_path_collision(node.path_x, node.path_y):
                     return False
-        return True # Sem colisão
+        return True
 
     @staticmethod
     def get_nearest_node_index(node_list, rnd_node):
@@ -133,7 +126,7 @@ class RRT:
         theta = math.atan2(dy, dx)
         return d, theta
 
-class DynamicObstacle: # Mantido como círculo por enquanto
+class DynamicObstacle:
     def __init__(self, x, y, size, speed_x=0, speed_y=0):
         self.x = x
         self.y = y
@@ -164,29 +157,20 @@ class DynamicObstacle: # Mantido como círculo por enquanto
     def to_dict(self):
         return {"x": self.x, "y": self.y, "size": self.size}
 
-# ### FUNÇÃO DE DESENHO MODIFICADA ###
 def draw_simulation_state(current_x, current_y, current_path, static_obstacles, dynamic_obstacles, rand_area):
     plt.clf()
-    ax = plt.gca() # Pega o eixo atual para adicionar os retângulos
-    
-    # Desenha obstáculos estáticos (retângulos)
+    ax = plt.gca()
     for (ox, oy, width, height) in static_obstacles:
         rect = patches.Rectangle((ox, oy), width, height, linewidth=1, edgecolor='black', facecolor='black')
         ax.add_patch(rect)
-
-    # Desenha obstáculos dinâmicos (círculos)
     for obs in dynamic_obstacles:
         ax.add_patch(plt.Circle((obs.x, obs.y), obs.size, color='orange', alpha=0.7))
-    
-    # Desenha o robô e a rota planejada
     plt.plot(current_x, current_y, "Dg", markersize=10, label="Robô")
     if current_path:
         path_x, path_y = zip(*current_path)
         plt.plot(path_x, path_y, '-r', label="Rota Planejada")
-    
     plt.plot(x_start[0], x_start[1], "go", markersize=12, label="Início")
     plt.plot(x_goal[0], x_goal[1], "rx", markersize=12, label="Objetivo")
-
     plt.axis("equal")
     plt.grid(True)
     plt.xlim(rand_area[0], rand_area[1])
@@ -195,75 +179,61 @@ def draw_simulation_state(current_x, current_y, current_path, static_obstacles, 
     plt.title(f"Simulação RRT Dinâmico")
     plt.pause(0.01)
 
-# ### FUNÇÃO DE GERAR MAPA MODIFICADA ###
 def create_static_map_pgm(filename, rand_area, static_obs_rect, dynamic_obs_initial_circ):
-    """Cria e salva um mapa PGM com o estado inicial dos obstáculos."""
     world_x_min, world_y_min = rand_area[0], rand_area[0]
     world_x_max, world_y_max = rand_area[1], rand_area[1]
-    
     map_width = int((world_x_max - world_x_min) / MAP_RESOLUTION) + 1 + 2 * MAP_BORDER
     map_height = int((world_y_max - world_y_min) / MAP_RESOLUTION) + 1 + 2 * MAP_BORDER
     grid_map = np.full((map_height, map_width), 254, dtype=np.uint8)
-
     for y_pix in range(map_height):
         for x_pix in range(map_width):
             world_x = world_x_min + (x_pix - MAP_BORDER) * MAP_RESOLUTION
             world_y = world_y_min + (y_pix - MAP_BORDER) * MAP_RESOLUTION
-            
-            # Checa obstáculos retangulares
             for (ox, oy, w, h) in static_obs_rect:
                 if (ox <= world_x <= ox + w) and (oy <= world_y <= oy + h):
-                    grid_map[y_pix, x_pix] = 0 # Ocupado
+                    grid_map[y_pix, x_pix] = 0
                     break
             if grid_map[y_pix, x_pix] == 0: continue
-
-            # Checa obstáculos circulares dinâmicos (na posição inicial)
             for obs in dynamic_obs_initial_circ:
                 if math.hypot(world_x - obs.x, world_y - obs.y) <= obs.size:
-                    grid_map[y_pix, x_pix] = 0 # Ocupado
+                    grid_map[y_pix, x_pix] = 0
                     break
-
     with open(filename, 'wb') as f:
         header = f'P5\n{map_width} {map_height}\n255\n'
         f.write(header.encode('ascii'))
         f.write(np.flipud(grid_map).tobytes())
-    
     print(f"Mapa estático salvo em '{filename}' ({map_width}x{map_height} pixels)")
     return {
         "world_x_min": world_x_min, "world_y_min": world_y_min,
         "map_width_pixels": map_width, "map_height_pixels": map_height
     }
 
-# ### CONFIGURAÇÃO DO MAPA ATUALIZADA ###
-# Área de simulação e pontos de início/fim
+# --- CONFIGURAÇÃO PADRÃO DO MAPA E SIMULAÇÃO ---
 rand_area = [-2, 18]
 x_start = [1.0, 1.0]
-x_goal = [1.0, 13.0]
+x_goal = [16.16, 15.60]  # <<< PONTO FINAL ATUALIZADO AQUI
 
-# Lista de obstáculos estáticos retangulares (x, y, largura, altura)
-# Coordenadas aproximadas baseadas na sua imagem
+# Lista de obstáculos estáticos retangulares (x, y do canto inf. esquerdo, largura, altura)
 rectangular_obstacles = [
-    # Bordas do mapa
-    (rand_area[0], rand_area[0], rand_area[1] - rand_area[0], 0.5),  # Borda inferior
-    (rand_area[0], rand_area[1] - 0.5, rand_area[1] - rand_area[0], 0.5), # Borda superior
-    (rand_area[0], rand_area[0], 0.5, rand_area[1] - rand_area[0]),  # Borda esquerda
-    (rand_area[1] - 0.5, rand_area[0], 0.5, rand_area[1] - rand_area[0]), # Borda direita
-    # Obstáculos internos
-    (2, 9, 4, 4),
-    (8, 8, 2, 7),
-    (8, 2, 5, 4),
-    (3, 2, 2, 4),
-    (2, 6, 4, 0.5), # Obstáculo fino horizontal
-    (1, 0, 15, 0.5) # Plataforma inferior
+    (rand_area[0], rand_area[0], rand_area[1] - rand_area[0], 0.5),
+    (rand_area[0], rand_area[1] - 0.5, rand_area[1] - rand_area[0], 0.5),
+    (rand_area[0], rand_area[0], 0.5, rand_area[1] - rand_area[0]),
+    (rand_area[1] - 0.5, rand_area[0], 0.5, rand_area[1] - rand_area[0]),
+    (4, 9, 4, 4),
+    (10, 8, 2, 7),
+    (10, 2, 5, 4),
+    (5, 2, 2, 5),
+    (4, 6, 4, 0.5)
 ]
 
 def main():
-    print("Iniciando simulação RRT Dinâmico com mapa retangular...")
+    print("Iniciando simulação RRT Dinâmico com mapa padrão...")
     simulation_log = []
     
+    # Obstáculos dinâmicos (esferas amarelas)
     dynamic_obstacles = [
-        DynamicObstacle(13.0, 13.0, 1.0, speed_x=-0.2, speed_y=-0.1),
-        DynamicObstacle(7.0, 6.0, 0.8, speed_x=0.1, speed_y=0.15)
+        DynamicObstacle(12.0, 12.0, 1.2, speed_x=-0.2, speed_y=-0.1),
+        DynamicObstacle(8.0, 7.0, 0.8, speed_x=0.1, speed_y=0.15)
     ]
 
     map_metadata = create_static_map_pgm("simulation_map.pgm", rand_area, rectangular_obstacles, dynamic_obstacles)
