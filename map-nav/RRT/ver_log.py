@@ -1,12 +1,3 @@
-# ver_log.py
-# -*- coding: utf-8 -*-
-"""
-Analisa e visualiza o log da simulação RRT Dinâmico.
-
-Este script carrega o mapa estático (PGM) e o log da simulação (JSON)
-e visualiza a trajetória do robô, os eventos de replanejamento e o
-movimento dos obstáculos dinâmicos.
-"""
 import json
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -14,7 +5,6 @@ import os
 import numpy as np
 from typing import List, Dict, Any, Optional
 
-# --- Configuração ---
 MAP_FILENAME: str = "simulation_map.pgm"
 LOG_FILENAME: str = "simulation_log.json"
 METADATA_FILENAME: str = "map_metadata.json"
@@ -63,31 +53,50 @@ def visualize_simulation(log_data: List[Dict[str, Any]], map_img: Optional[np.nd
     plt.figure(figsize=(12, 10))
 
     if map_img is not None and map_metadata:
-        # Usa os metadados para garantir o alinhamento correto
-        mx_min, my_min = map_metadata["world_x_min"], map_metadata["world_y_min"]
-        map_w, map_h = map_metadata["map_width_pixels"], map_metadata["map_height_pixels"]
-        
-        # O PGM foi salvo com a origem no canto inferior esquerdo após np.flipud
-        # O 'extent' do imshow mapeia os cantos do array para as coordenadas do mundo
-        extent = [mx_min - 0.5, mx_min + map_w - 0.5, my_min - 0.5, my_min + map_h - 0.5]
-        
-        plt.imshow(map_img, cmap='gray', extent=extent, origin='lower')
-        print(f"Mapa plotado com extent: {extent}")
+        try:
+            mx_min = map_metadata["world_x_min"]
+            my_min = map_metadata["world_y_min"]
+            res = map_metadata["resolution"]
+            border = map_metadata["border_pixels"]
+            map_w = map_metadata["map_width_pixels"]
+            map_h = map_metadata["map_height_pixels"]
+            
+            center_x0 = mx_min - border * res
+            center_y0 = my_min - border * res
+            
+            ext_left = center_x0 - (res / 2.0)
+            ext_bottom = center_y0 - (res / 2.0)
+            
+            center_xN = mx_min + (map_w - 1 - border) * res
+            center_yN = my_min + (map_h - 1 - border) * res
+            
+            ext_right = center_xN + (res / 2.0)
+            ext_top = center_yN + (res / 2.0)
+
+            extent = [ext_left, ext_right, ext_bottom, ext_top]
+            
+            plt.imshow(map_img, cmap='gray', extent=extent, origin='upper')
+            
+            print(f"Mapa plotado com extent (coordenadas do mundo): {extent}")
+            
+        except KeyError as e:
+            print(f"Erro: Metadados incompletos (execute rrt_planner.py novamente). Faltando: {e}")
+            plt.imshow(map_img, cmap='gray', origin='upper') # Fallback
+        except Exception as e:
+            print(f"Erro ao processar metadados do mapa: {e}")
+            plt.imshow(map_img, cmap='gray', origin='upper') # Fallback
     else:
         print("Mapa ou metadados não carregados. Plotando apenas as trajetórias.")
 
-    # --- Plot da Trajetória do Robô ---
     plt.plot(path_x, path_y, marker='.', markersize=2, linestyle='-', color='red', label='Trajetória do Robô', zorder=5)
 
-    # --- Destaque de Eventos de Replanejamento ---
     replanning_points = [(e['pose']['x'], e['pose']['y']) for e in log_data if 'REPLANNING' in e.get('state', '') and e.get('pose')]
     if replanning_points:
         repl_x, repl_y = zip(*replanning_points)
         plt.scatter(repl_x, repl_y, c='orange', s=80, label='Replanejamento', zorder=7, edgecolors='black', marker='v')
         print(f"Destacados {len(replanning_points)} eventos de replanejamento.")
 
-    # --- Visualização da Trilha dos Obstáculos Dinâmicos ---
-    if 'dynamic_obstacles' in log_data[0]:
+    if log_data and 'dynamic_obstacles' in log_data[0] and log_data[0]['dynamic_obstacles']:
         num_dyn_obs = len(log_data[0]['dynamic_obstacles'])
         obs_trails = {i: ([], []) for i in range(num_dyn_obs)}
         for entry in log_data:
@@ -98,16 +107,12 @@ def visualize_simulation(log_data: List[Dict[str, Any]], map_img: Optional[np.nd
         colors = plt.cm.viridis(np.linspace(0, 1, num_dyn_obs))
         for i, (trail_x, trail_y) in obs_trails.items():
             plt.plot(trail_x, trail_y, linestyle='--', color=colors[i], alpha=0.7, label=f'Trilha Obst. Din. {i+1}', zorder=3)
-            # Marca a posição final do obstáculo
             plt.gca().add_patch(plt.Circle((trail_x[-1], trail_y[-1]), log_data[-1]['dynamic_obstacles'][i]['size'], color=colors[i], alpha=0.5, zorder=4))
         print(f"Plotadas as trilhas de {num_dyn_obs} obstáculos dinâmicos.")
 
 
-    # --- Marcadores de Início e Fim ---
     plt.scatter(path_x[0], path_y[0], c='lime', s=150, marker='o', label='Início', zorder=6, edgecolors='black')
     plt.scatter(path_x[-1], path_y[-1], c='cyan', s=150, marker='X', label='Fim', zorder=6, edgecolors='black')
-
-    # --- Customização do Gráfico ---
     plt.xlabel('Coordenada X (Mundo)')
     plt.ylabel('Coordenada Y (Mundo)')
     plt.title('Análise da Simulação RRT Dinâmico')
