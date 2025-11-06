@@ -1,6 +1,3 @@
-# rrt_planner.py
-# -*- coding: utf-8 -*-
-
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -11,7 +8,6 @@ import numpy as np
 import json
 import time
 
-# --- Constantes para Geração de Mapa ---
 MAP_RESOLUTION = 0.25
 MAP_BORDER = 2
 
@@ -45,8 +41,11 @@ class RRT:
             nearest_ind = self.get_nearest_node_index(self.node_list, rnd_node)
             nearest_node = self.node_list[nearest_ind]
             new_node = self.steer(nearest_node, rnd_node, self.expand_dis)
+            
+            # Verificação de colisão atualizada
             if self.check_collision(new_node, dynamic_obstacle_list):
                 self.node_list.append(new_node)
+                
             if self.calc_dist_to_goal(self.node_list[-1].x, self.node_list[-1].y) <= self.expand_dis:
                 final_node = self.steer(self.node_list[-1], self.goal, self.expand_dis)
                 if self.check_collision(final_node, dynamic_obstacle_list):
@@ -101,15 +100,24 @@ class RRT:
     def check_collision(self, node, dynamic_obstacle_list):
         if node is None:
             return False
-        for (ox, oy, width, height) in self.obstacle_list:
+            
+        for obs in self.obstacle_list:
             for (ix, iy) in zip(node.path_x, node.path_y):
-                if ox <= ix <= ox + width and oy <= iy <= oy + height:
-                    return False
+                if obs['type'] == 'rect':
+                    ox, oy, w, h = obs['x'], obs['y'], obs['w'], obs['h']
+                    if ox <= ix <= ox + w and oy <= iy <= oy + h:
+                        return False  # Colisão com retângulo
+                elif obs['type'] == 'circle':
+                    cx, cy, r = obs['x'], obs['y'], obs['r']
+                    if math.hypot(ix - cx, iy - cy) <= r:
+                        return False  # Colisão com círculo
+        
         if dynamic_obstacle_list:
             for obs in dynamic_obstacle_list:
                 if obs.check_node_path_collision(node.path_x, node.path_y):
                     return False
-        return True
+                    
+        return True # Sem colisão
 
     @staticmethod
     def get_nearest_node_index(node_list, rnd_node):
@@ -160,83 +168,119 @@ class DynamicObstacle:
 def draw_simulation_state(current_x, current_y, current_path, static_obstacles, dynamic_obstacles, rand_area):
     plt.clf()
     ax = plt.gca()
-    for (ox, oy, width, height) in static_obstacles:
-        rect = patches.Rectangle((ox, oy), width, height, linewidth=1, edgecolor='black', facecolor='black')
-        ax.add_patch(rect)
+    
+    for obs in static_obstacles:
+        if obs['type'] == 'rect':
+            # Cor cinza para combinar com a imagem
+            rect = patches.Rectangle((obs['x'], obs['y']), obs['w'], obs['h'], linewidth=1, edgecolor='#444444', facecolor='#666666')
+            ax.add_patch(rect)
+        elif obs['type'] == 'circle':
+            # Cor cinza para combinar com a imagem
+            circle = plt.Circle((obs['x'], obs['y']), obs['r'], color='#666666', linewidth=1, edgecolor='#444444')
+            ax.add_patch(circle)
+
     for obs in dynamic_obstacles:
         ax.add_patch(plt.Circle((obs.x, obs.y), obs.size, color='orange', alpha=0.7))
+        
     plt.plot(current_x, current_y, "Dg", markersize=10, label="Robô")
     if current_path:
         path_x, path_y = zip(*current_path)
         plt.plot(path_x, path_y, '-r', label="Rota Planejada")
+        
     plt.plot(x_start[0], x_start[1], "go", markersize=12, label="Início")
     plt.plot(x_goal[0], x_goal[1], "rx", markersize=12, label="Objetivo")
+    
     plt.axis("equal")
     plt.grid(True)
-    plt.xlim(rand_area[0], rand_area[1])
-    plt.ylim(rand_area[0], rand_area[1])
+    plt.xlim(rand_area[0] - MAP_BORDER, rand_area[1] + MAP_BORDER)
+    plt.ylim(rand_area[0] - MAP_BORDER, rand_area[1] + MAP_BORDER)
     plt.legend()
     plt.title(f"Simulação RRT Dinâmico")
     plt.pause(0.01)
 
-def create_static_map_pgm(filename, rand_area, static_obs_rect, dynamic_obs_initial_circ):
+def create_static_map_pgm(filename, rand_area, static_obstacles, dynamic_obs_initial_circ):
     world_x_min, world_y_min = rand_area[0], rand_area[0]
     world_x_max, world_y_max = rand_area[1], rand_area[1]
+    
     map_width = int((world_x_max - world_x_min) / MAP_RESOLUTION) + 1 + 2 * MAP_BORDER
     map_height = int((world_y_max - world_y_min) / MAP_RESOLUTION) + 1 + 2 * MAP_BORDER
-    grid_map = np.full((map_height, map_width), 254, dtype=np.uint8)
+    grid_map = np.full((map_height, map_width), 254, dtype=np.uint8) # 254 = livre
+    
     for y_pix in range(map_height):
         for x_pix in range(map_width):
             world_x = world_x_min + (x_pix - MAP_BORDER) * MAP_RESOLUTION
             world_y = world_y_min + (y_pix - MAP_BORDER) * MAP_RESOLUTION
-            for (ox, oy, w, h) in static_obs_rect:
-                if (ox <= world_x <= ox + w) and (oy <= world_y <= oy + h):
-                    grid_map[y_pix, x_pix] = 0
-                    break
+            
+            for obs in static_obstacles:
+                if obs['type'] == 'rect':
+                    ox, oy, w, h = obs['x'], obs['y'], obs['w'], obs['h']
+                    if (ox <= world_x <= ox + w) and (oy <= world_y <= oy + h):
+                        grid_map[y_pix, x_pix] = 0 # 0 = ocupado
+                        break
+                elif obs['type'] == 'circle':
+                    cx, cy, r = obs['x'], obs['y'], obs['r']
+                    if math.hypot(world_x - cx, world_y - cy) <= r:
+                        grid_map[y_pix, x_pix] = 0 # 0 = ocupado
+                        break
+            
             if grid_map[y_pix, x_pix] == 0: continue
+            
             for obs in dynamic_obs_initial_circ:
                 if math.hypot(world_x - obs.x, world_y - obs.y) <= obs.size:
                     grid_map[y_pix, x_pix] = 0
                     break
+                    
     with open(filename, 'wb') as f:
         header = f'P5\n{map_width} {map_height}\n255\n'
         f.write(header.encode('ascii'))
         f.write(np.flipud(grid_map).tobytes())
+        
     print(f"Mapa estático salvo em '{filename}' ({map_width}x{map_height} pixels)")
+    
     return {
         "world_x_min": world_x_min, "world_y_min": world_y_min,
-        "map_width_pixels": map_width, "map_height_pixels": map_height
+        "world_x_max": world_x_max, "world_y_max": world_y_max,
+        "map_width_pixels": map_width, "map_height_pixels": map_height,
+        "resolution": MAP_RESOLUTION,
+        "border_pixels": MAP_BORDER
     }
 
-# --- CONFIGURAÇÃO PADRÃO DO MAPA E SIMULAÇÃO ---
-rand_area = [-2, 18]
-x_start = [1.0, 1.0]
-x_goal = [16.16, 15.60]  # <<< PONTO FINAL ATUALIZADO AQUI
+rand_area = [0, 50] # Limites do mapa (x_min, x_max, y_min, y_max)
+x_start = [2.0, 2.0]  # Posição inicial (canto inferior esquerdo)
+x_goal = [48.0, 45.0] # Posição final (canto superior direito)
 
-# Lista de obstáculos estáticos retangulares (x, y do canto inf. esquerdo, largura, altura)
-rectangular_obstacles = [
-    (rand_area[0], rand_area[0], rand_area[1] - rand_area[0], 0.5),
-    (rand_area[0], rand_area[1] - 0.5, rand_area[1] - rand_area[0], 0.5),
-    (rand_area[0], rand_area[0], 0.5, rand_area[1] - rand_area[0]),
-    (rand_area[1] - 0.5, rand_area[0], 0.5, rand_area[1] - rand_area[0]),
-    (4, 9, 4, 4),
-    (10, 8, 2, 7),
-    (10, 2, 5, 4),
-    (5, 2, 2, 5),
-    (4, 6, 4, 0.5)
+static_obstacles = [
+    # Bordas (para replicar a caixa preta)
+    {'type': 'rect', 'x': 0, 'y': 0, 'w': 50, 'h': 0.5},  # Fundo
+    {'type': 'rect', 'x': 0, 'y': 49.5, 'w': 50, 'h': 0.5},# Topo
+    {'type': 'rect', 'x': 0, 'y': 0, 'w': 0.5, 'h': 50},  # Esquerda
+    {'type': 'rect', 'x': 49.5, 'y': 0, 'w': 0.5, 'h': 50},# Direita
+
+    # Obstáculos internos (coordenadas estimadas da imagem)
+    # Círculos: {'type': 'circle', 'x': centro_x, 'y': centro_y, 'r': raio}
+    {'type': 'circle', 'x': 10, 'y': 35, 'r': 6},   # Círculo grande superior esquerdo
+    {'type': 'circle', 'x': 10, 'y': 14, 'r': 4},   # Círculo médio inferior esquerdo
+    {'type': 'circle', 'x': 25, 'y': 42, 'r': 3},   # Círculo pequeno superior central
+    {'type': 'circle', 'x': 40, 'y': 24, 'r': 3},   # Círculo pequeno central direito
+    {'type': 'circle', 'x': 40, 'y': 8, 'r': 2.5},  # Círculo pequeno inferior direito
+
+    # Retângulos: {'type': 'rect', 'x': canto_inf_x, 'y': canto_inf_y, 'w': largura, 'h': altura}
+    {'type': 'rect', 'x': 15, 'y': 10, 'w': 5, 'h': 10},  # Retângulo vertical inferior central
+    {'type': 'rect', 'x': 15, 'y': 22, 'w': 10, 'h': 3},  # Retângulo horizontal central baixo
+    {'type': 'rect', 'x': 28, 'y': 15, 'w': 3, 'h': 15},  # Retângulo vertical central
+    {'type': 'rect', 'x': 28, 'y': 8, 'w': 3, 'h': 5},    # Retângulo vertical inferior direito
+    {'type': 'rect', 'x': 18, 'y': 32, 'w': 10, 'h': 3},  # Retângulo horizontal superior central
+    {'type': 'rect', 'x': 35, 'y': 40, 'w': 10, 'h': 2},  # Retângulo horizontal superior direito
+    {'type': 'rect', 'x': 35, 'y': 32, 'w': 3, 'h': 5}    # Retângulo vertical superior direito
 ]
 
 def main():
-    print("Iniciando simulação RRT Dinâmico com mapa padrão...")
+    print("Iniciando simulação RRT Dinâmico com mapa customizado...")
     simulation_log = []
     
-    # Obstáculos dinâmicos (esferas amarelas)
-    dynamic_obstacles = [
-        DynamicObstacle(12.0, 12.0, 1.2, speed_x=-0.2, speed_y=-0.1),
-        DynamicObstacle(8.0, 7.0, 0.8, speed_x=0.1, speed_y=0.15)
-    ]
+    dynamic_obstacles = []
 
-    map_metadata = create_static_map_pgm("simulation_map.pgm", rand_area, rectangular_obstacles, dynamic_obstacles)
+    map_metadata = create_static_map_pgm("simulation_map.pgm", rand_area, static_obstacles, dynamic_obstacles)
 
     current_x, current_y = x_start
     dt = 0.1
@@ -246,11 +290,13 @@ def main():
     try:
         try:
             simulation_time = 0.0
+            dyn_rand_area = [rand_area[0] + 1, rand_area[1] - 1] 
+            
             while math.hypot(current_x - x_goal[0], current_y - x_goal[1]) > 0.5:
                 for obs in dynamic_obstacles:
                     obs.update_position(dt)
-                    if not (rand_area[0] < obs.x < rand_area[1]): obs.speed_x *= -1
-                    if not (rand_area[0] < obs.y < rand_area[1]): obs.speed_y *= -1
+                    if not (dyn_rand_area[0] < obs.x < dyn_rand_area[1]): obs.speed_x *= -1
+                    if not (dyn_rand_area[0] < obs.y < dyn_rand_area[1]): obs.speed_y *= -1
 
                 replan = False
                 if not current_path:
@@ -267,8 +313,10 @@ def main():
                             break
                 
                 if replan:
-                    rrt = RRT(start=[current_x, current_y], goal=x_goal, rand_area=rand_area,
-                              obstacle_list=rectangular_obstacles, max_iter=1000)
+                    rrt = RRT(start=[current_x, current_y], goal=x_goal, 
+                              rand_area=rand_area,
+                              obstacle_list=static_obstacles, 
+                              max_iter=1000) # Aumentei iter para mapa complexo
                     path_nodes = rrt.planning(dynamic_obstacle_list=dynamic_obstacles)
                     if path_nodes:
                         current_path = path_nodes
@@ -288,13 +336,13 @@ def main():
                 if current_path:
                     target_x, target_y = current_path[0]
                     angle = math.atan2(target_y - current_y, target_x - current_x)
-                    robot_speed = 3.0
+                    robot_speed = 3.0 # Velocidade do robô
                     current_x += robot_speed * dt * math.cos(angle)
                     current_y += robot_speed * dt * math.sin(angle)
                     if math.hypot(current_x - target_x, current_y - target_y) < 0.3:
                         current_path.pop(0)
 
-                draw_simulation_state(current_x, current_y, current_path, rectangular_obstacles, dynamic_obstacles, rand_area)
+                draw_simulation_state(current_x, current_y, current_path, static_obstacles, dynamic_obstacles, rand_area)
                 simulation_time += dt
 
                 if simulation_time > 150:
@@ -317,6 +365,7 @@ def main():
             
             with open("map_metadata.json", "w") as f:
                 json.dump(map_metadata, f, indent=4)
+            print("Metadados do mapa salvos em 'map_metadata.json'.")
         
         print("Simulação finalizada. Feche a janela do gráfico para encerrar.")
         plt.show()
