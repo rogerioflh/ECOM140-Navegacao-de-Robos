@@ -1,8 +1,3 @@
-# ver_mapa.py
-# -*- coding: utf-8 -*-
-"""
-Visualiza o arquivo de mapa estático (simulation_map.pgm).
-"""
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
@@ -15,10 +10,11 @@ def visualizar_mapa():
         img = mpimg.imread(MAP_FILENAME)
         
         plt.figure(figsize=(8, 8))
-        plt.imshow(img, cmap='gray', origin='lower') # 'origin' para corresponder ao sistema de coordenadas
+        plt.imshow(img, cmap='gray', origin='upper')
         plt.title(f'Mapa Estático Inicial ({MAP_FILENAME})')
         plt.xlabel('Pixels (X)')
         plt.ylabel('Pixels (Y)')
+        
         print("Mapa carregado com sucesso. Exibindo...")
         plt.show()
         
